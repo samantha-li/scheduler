@@ -1,0 +1,39 @@
+{% load filters %}
+
+<head>
+<link rel="stylesheet" type="text/css" href="/static/css/landing.css">
+</head>
+
+<html>
+<table class="calendar" border=3 cellspacing=5 cellpadding=10>
+<tr>
+<td align=center>Mon</td>
+<td align=center>Tue</td>
+<td align=center>Wed</td>
+<td align=center>Thu</td>
+<td align=center>Fri</td>
+<td align=center>Sat</td>
+<td align=center>Sun</td>
+</tr>
+<tr>
+{% for day in weekdays %}
+<td valign="top">
+       {% with shifts=shifts_by_day|lookup:day %}
+       {% for s in shifts %}
+            {{ s.0 }}-{{ s.1 }}<p>
+       {% endfor %}
+       {% endwith %}
+</td>
+{% endfor %}
+</tr>
+</table>
+{% for k in testing %}
+{{ k }}
+,,,
+{% endfor %}
+<p>
+    <form method="get" action="/index">
+        <button type="submit">Back to your calendar</button>
+    </form>
+
+</html>

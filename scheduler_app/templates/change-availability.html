@@ -1,0 +1,38 @@
+{% load filters %}
+
+<head>
+<link rel="stylesheet" type="text/css" href="/static/css/landing.css">
+</head>
+
+<html>
+<h1>Welcome, {{ user_id }}</h1>
+<table class="calendar" border=3 cellspacing=5 cellpadding=10>
+<tr>
+<td align=center>Mon</td>
+<td align=center>Tue</td>
+<td align=center>Wed</td>
+<td align=center>Thu</td>
+<td align=center>Fri</td>
+<td align=center>Sat</td>
+<td align=center>Sun</td>
+</tr>
+<tr>
+<form method=post action="set-availability.html"> {% csrf_token %}
+{% for day in weekdays %}
+<td valign="top">
+       {% with shifts=shifts_by_day|lookup:day %}
+       {% for s in shifts %}
+            <input type="checkbox" name="{{ s.0 }}">{{ s.1 }}<p> <!-- TODO: id -->
+       {% endfor %}
+       {% endwith %}
+</td>
+{% endfor %}
+<p>
+<td>
+<input type="hidden" name="redirect" value="set-availability"><br>
+<input type="submit"> <!-- TODO: form target-->
+</td>
+</form>
+</table>
+
+</html>

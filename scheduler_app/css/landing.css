@@ -1,0 +1,8 @@
+.calendar {
+   font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.day {
+   width: 100;
+   height: 100;
+}

@@ -117,20 +117,15 @@ def change_availability(request):
 def set_availability(request):
     myshifts = defaultdict(list)
     current_user = request.user
-    # when need to migrate DB, comment out below
-    # START OF CODE BLOCK ---------------------------------------------------------
     try:
         user_schedule = Availability.objects.get(user=(current_user))
     except Availability.DoesNotExist:
         user_schedule = Availability.objects.create(user=current_user)
-    # END OF CODE BLOCK ---------------------------------------------------------
     i = 0
     template = loader.get_template('set-availability.html')
     context = { "shifts_by_day": myshifts,
                 "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
               }
-    # when need to migrate DB, comment out below
-    # START OF CODE BLOCK ---------------------------------------------------------
     for s in indexed_shifts:
         checked = request.POST.get(str(i))
         if checked:
@@ -141,7 +136,6 @@ def set_availability(request):
             if tmp != None:
                 user_schedule.shifts.add(tmp)
         i += 1
-    # END OF CODE BLOCK ---------------------------------------------------------
     for s in user_schedule.shifts.all():
         myshifts[s.weekday].append((s.start_time, s.end_time))
     return HttpResponse(template.render(context, request))
@@ -188,8 +182,6 @@ def set_shifts(request):
     context = { "shifts_by_day": myshifts,
                 "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
               }
-    # when need to migrate DB, comment out below
-    # START OF CODE BLOCK ---------------------------------------------------------
     for s in indexed_shifts:
         checked = request.POST.get(str(i))
         if checked:
@@ -200,7 +192,6 @@ def set_shifts(request):
             if tmp != None:
                 user_schedule.shifts.add(tmp)
         i += 1
-    # END OF CODE BLOCK ---------------------------------------------------------
     for s in user_schedule.shifts.all():
         myshifts[s.weekday].append((s.start_time, s.end_time))
     return HttpResponse(template.render(context, request))
